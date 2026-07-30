@@ -1,0 +1,47 @@
+<div class="container-fluid mt-10 flex align-content-center justify-center ">
+  <div class="bg-white p-8 border rounded-3xl border-slate-300 shadow-lg shadow-gray-500/50  sm:w-full mx-5 lg:w-3/6 ">
+    <h1 class="text-4xl font-extrabold text-left">Καλωσόρισες στην Εφαρμογή Quiz</h1>
+    <!-- <p class="text-left text-lg"> Αυτή η εφαρμογή θα περιέχει συνολικά 10 ερωτήσεις.</p> -->
+    <h4 class="text-2xl font-bold mt-5">Κανόνες:</h4>
+    <ol class="list-decimal ml-5 text-lg">
+      <li>Μπορείς να επιλέξεις το μάθημα που θέλεις να προσπαθήσεις ή να απαντήσεις σε ερωτήσεις από όλα τα μαθήματα</li>
+      <li>Η εφαρμογή θα διαλέξει 20 ερωτήσεις από το Μάθημα που επιλέξεις ή από όλα τα μαθήματα</li>
+      <li>Κάθε σωστή ερώτηση σου δίνει 5 πόντους</li>
+      <!-- <li>Κάθε λάθος ερώτηση σου αφαιρεί 10 πόντους</li> -->
+      <li>Θα έχεις 10 δευτερόλεπτα για να απαντήσεις κάθε ερώτηση</li>
+      <!-- <li>Η ενημέρωση της σελίδας θα επαναφέρει την ερώτηση</li> -->
+    </ol>
+    <h1 class="text-center font-semibold text-4xl">Καλή επιτυχία!</h1>
+
+    <div class="flex justify-center">
+      <div class="flex flex-row flex-wrap justify-center sm:w-full md:w-8/12 lg:w-4/6">
+        <input placeholder="Δώσε το όνομά σου" #name
+          class=" text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-100 focus:outline-none focus:shadow-lg focus:ring-0 ring-offset-current ring-offset-1 ring-gray-400">
+
+          <select #categoryId (change)="getSubjectsByCategory(categoryId.value)"
+          class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-100 focus:outline-none focus:shadow-lg focus:ring-0 ring-offset-current ring-offset-1 ring-gray-400">
+          <option value="">Επίλεξε μια κατηγορία</option>
+          <option *ngFor="let category of categoryList" [value]="category.id">
+            {{category.name}}
+          </option>
+        </select>
+        <select #subjectId
+          class="text-black placeholder-gray-600 w-full px-4 py-2.5 mt-2 text-base   transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-200  focus:border-blueGray-500 focus:bg-white dark:focus:bg-gray-100 focus:outline-none focus:shadow-lg focus:ring-0 ring-offset-current ring-offset-1 ring-gray-400">
+          <option value="">Επίλεξε ένα μάθημα</option>
+          <option *ngFor="let subject of subjectList" [value]="subject.id">
+            {{subject.name}}
+          </option>
+        </select>
+        <button
+          class="transition mt-5 ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 duration-300 shadow-lg shadow-blue-500/50 py-2 px-3 rounded-lg font-bold text-white hover:bg-blue-600 "
+          routerLink="/question" (click)="startQuiz()">Ξεκίνα το quiz</button>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

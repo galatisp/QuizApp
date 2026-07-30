@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="card" [ngClass]="getColorOf(questionList[currentQuestion]?.subjectId)">
+        <div class="card-header">
+         <h3>{{subjectList[currentSubject]?.name}}</h3> 
+        </div>
+        <div class="card-body" >
+          <h5 class="card-title">{{questionList[currentQuestion]?.questionText}}</h5>
+          
+            <div class="options mt-2 card-text">
+                <ol class="list-decimal ml-5" >
+                  <li class="mt-2" *ngFor="let option of questionList[currentQuestion]?.options" (click)="answer(currentQuestion+1,option)">
+                    <div appChangeBg [isCorrect]="option.correct"
+                      class="px-3 py-4 border rounded-xl border-slate-300 w-full  cursor-pointer duration-300 ease-in-out  hover:transition-all hover:duration-500 text-lg font-semibold">
+                      {{option.text}}
+                    </div>
+                  </li>
+        
+                </ol>
+              </div>
+           
+        </div>
+
+         <div  class="score">
+            <h2>Your Score: {{ getProgressPercent() }} </h2>
+        </div>
+      </div>
+
+</div>
+

@@ -1,0 +1,55 @@
+version: '3.8'  # Compose file format version
+
+services:
+  mysql:
+    image: mysql:8.0           # Official MySQL 8.0 image
+    container_name: mysql   # Container name (optional, for convenience)
+    ports:
+      - "3306:3306"           # Port forwarding for MySQL to the host (for external connections). Note: if you already have MySQL installed, choose a different port to avoid conflicts, e.g. 3307:3307
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}   # Root password (taken from .env)
+      MYSQL_DATABASE: ${MYSQL_DATABASE}             # Database name to create (from .env)
+      MYSQL_USER: ${MYSQL_USER}                     # Additional DB user (from .env)
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}             # Additional user password (from .env)
+    volumes:
+      - db_data:/var/lib/mysql    # Named volume for storing DB data
+    networks:
+      - app-network              # Connection to custom network
+
+  phpmyadmin:
+    image: phpmyadmin:latest    # phpMyAdmin image
+    container_name: myadmin     # phpMyAdmin container name
+    depends_on:
+      - mysql                      # mysql container must start first
+    ports:
+      - "8080:80"               # phpMyAdmin will be available on port 8080
+    environment:
+      PMA_HOST: mysql              # DB host for connection (MySQL service name)
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}  # Root password for access
+    networks:
+      - app-network
+ 
+  backend:
+    build: backend
+    ports:
+      - 5000:5000
+    networks:
+      - app-network
+    depends_on:
+      - mysql  
+
+  frontend:
+    build: frontend
+    ports:
+      - 80:8080
+    networks:
+      - app-network
+    depends_on:
+      - backend   
+
+# Define named volume and network
+volumes:
+  db_data:                      # Volume for MySQL data (Docker stores its data)
+networks:
+  app-network:                  # Custom network for our services
+    driver: bridge
