@@ -61,7 +61,8 @@ QuestionService.getSubject = async (subjectId) => {
         where: {
             subjectId
         },
-        include: [{ model: Subject }]
+        attributes: all_attributes,
+        include: subject_includes
     });
 };
 
@@ -71,8 +72,10 @@ QuestionService.getRandomSubject = async (subjectId, myLimit) => {
             subjectId
         },
         order: sequelize.random(),
-        limit: myLimit || 10
-    }, { include: ["subject"] });
+        limit: myLimit || 10,
+        attributes: all_attributes,
+        include: subject_includes
+    });
 };
 
 QuestionService.getRandomCategory = async (categoryId, myLimit) => {
@@ -81,8 +84,10 @@ QuestionService.getRandomCategory = async (categoryId, myLimit) => {
             categoryId
         },
         order: sequelize.random(),
-        limit: myLimit || 10
-    }, { include: ["subject"] });
+        limit: myLimit || 10,
+        attributes: all_attributes,
+        include: subject_includes
+    });
 };
 
 
