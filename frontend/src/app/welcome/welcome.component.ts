@@ -42,6 +42,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   getAllCategories() {
+    console.log("get All Categories");
     this.categoriesService.getAllCategories().subscribe((res) => {
       this.categoryList = res.categories;
     });

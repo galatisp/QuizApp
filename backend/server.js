@@ -24,7 +24,7 @@ function initApp() {
     //app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
     // app.use(cors({ credentials: true, origin: '*' }));
     app.use(cors({credentials: true, origin: 'http://localhost'}));
-     app.use(cors({credentials: true, origin: 'http://localhost:4000'}));
+   
  
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
