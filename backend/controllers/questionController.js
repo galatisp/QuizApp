@@ -6,6 +6,7 @@ const QuestionController = {};
 function create_query_response(question) {
 
     const q = {
+        number: question.dataValues.number,
         questionText: question.dataValues.title,
         subjectId: question.dataValues.subjectId,
         subjectName: question.dataValues.subjectName,
@@ -22,8 +23,10 @@ function create_query_response(question) {
             {
                 text: question.dataValues.answer4
             }
-        ]
+        ],
+        
     };
+    q.correctAnswer =  q.options[question.dataValues.correctAnswer - 1].text;
     q.options[question.dataValues.correctAnswer - 1].correct = true;
     q.explanation = "";
     return q;

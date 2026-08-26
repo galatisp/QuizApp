@@ -4,6 +4,9 @@ import { QuestionComponent } from './question/question.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { TestComponent } from './test/test.component';
 
+import { UploadQuestionsComponent } from './admin/upload-questions/upload-questions.component';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -22,6 +25,11 @@ const routes: Routes = [
     path: 'test',
     component: TestComponent,
   },
+  {
+    path: 'admin/upload-questions',
+    component: UploadQuestionsComponent,
+  },
+  
 ];
 
 @NgModule({

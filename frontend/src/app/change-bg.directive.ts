@@ -24,9 +24,10 @@ export class ChangeBgDirective {
 
     let correct = document.getElementById('correct');
     //if (correct) (correct as HTMLFormElement).reset();
-    console.log('Correct answer element:', correct);
+    //console.log('Correct answer element:', correct);
 
     correct?.classList.add('bg-green-600');
+    
     setTimeout(() => {
       correct?.classList.remove('bg-green-600');
     }, 1000);

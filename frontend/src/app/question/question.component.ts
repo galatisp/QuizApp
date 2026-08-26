@@ -4,6 +4,8 @@ import { QuestionService } from '../service/question.service';
 import { SubjectService } from '../service/subject.service';
 import { CategoriesService } from '../service/categories.service';
 
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -17,25 +19,39 @@ export class QuestionComponent implements OnInit {
   public currentQuestion: number = 0;
   public points: number = 0;
 
+  private noOfQuestions: number;
+
   answers: any[] = [];
   currentSubject: string = '';
   currentCategory: string = '';
-  totalTime: number = 100;
-  questionTime: number = 10;
-  counter = 10;
+  totalTime: number;
+  questionTime: number = 20;
+  counter: number;
+
+  maxGrade: number = 0;
   correctAnswer: number = 0;
   incorrectAnswer: number = 0;
+  questionsLength: number = 0;
   interval$: any;
   progress: string = '0';
   isQuizCompleted: boolean = false;
 
-  constructor(private questionService: QuestionService, private subjectService: SubjectService, private categoriesService: CategoriesService) { }
+  constructor(private questionService: QuestionService, private subjectService: SubjectService, private categoriesService: CategoriesService) {
+    this.noOfQuestions = environment.questions || 20; // Default to 20 if not set
+    console.log("number Of Questions  = " + this.noOfQuestions);
+
+    this.totalTime = environment.totalTime || 50;
+    this.counter = this.totalTime;
+    console.log("totalTime = " + this.totalTime);
+    this.maxGrade = environment.maxGrade || 100;
+    console.log("maxGrade = " + this.maxGrade);
+  }
 
   ngOnInit(): void {
-  
+
     this.initializeQuestions();
     this.startCounter();
-   
+
   }
 
   initializeQuestions() {
@@ -44,7 +60,7 @@ export class QuestionComponent implements OnInit {
     this.categoryId = Number(localStorage.getItem('categoryId')!);
     if (this.categoryId) {
       this.getCategory(this.categoryId);
-     
+
       if (this.subjectId) {
         this.getSubject(this.subjectId);
         this.getSubjectRandomQuestions(this.subjectId);
@@ -52,7 +68,7 @@ export class QuestionComponent implements OnInit {
       else {
         this.getCategoryRandomQuestions(this.categoryId);
       }
-      
+
     }
     else {
       if (this.subjectId) {
@@ -66,6 +82,7 @@ export class QuestionComponent implements OnInit {
     }
     this.currentQuestion = 0;
     this.setCurrentSubjectName();
+
   }
 
   getCategoryName(): string {
@@ -76,7 +93,7 @@ export class QuestionComponent implements OnInit {
       });
     }
     return this.currentCategory;
-  }  
+  }
 
   setCurrentSubjectName() {
     const subject = this.questionList[this.currentQuestion]?.subjectId;
@@ -85,7 +102,7 @@ export class QuestionComponent implements OnInit {
         this.currentSubject = res.subjects[0].name;
       });
     }
-   
+
   }
 
   getCategory(id: any) {
@@ -103,17 +120,20 @@ export class QuestionComponent implements OnInit {
   getAllQuestions() {
     this.questionService.getQuestionJson().subscribe((res) => {
       this.questionList = res.questions;
+      this.questionsLength = this.questionList.length;
     });
   }
 
   getRandomQuestions() {
     this.questionService.getRandomQuestions().subscribe((res) => {
       this.questionList = res.questions;
+      this.questionsLength = this.questionList.length;
     });
   }
   getSubjectRandomQuestions(id: any) {
     this.questionService.getSubjectRandomQuestions(id).subscribe((res) => {
       this.questionList = res.questions;
+      this.questionsLength = this.questionList.length;
 
     });
   }
@@ -122,54 +142,97 @@ export class QuestionComponent implements OnInit {
   getCategoryRandomQuestions(id: any) {
     this.questionService.getCategoryRandomQuestions(id).subscribe((res) => {
       this.questionList = res.questions;
+      this.questionsLength = this.questionList.length;
     });
   }
 
   nextQuestion() {
     this.currentQuestion++;
     this.setCurrentSubjectName();
-    this.resetCounter();
+    // this.resetCounter();
   }
 
   prevQuestion() {
     this.currentQuestion--;
     this.setCurrentSubjectName();
-    this.resetCounter();
+    // this.resetCounter();
+  }
+
+  removeElementFromQuestions(element: number) {
+    this.questionList.forEach((value: any, index: any) => {
+      if (value == element) {
+
+        if (this.currentQuestion == this.questionList.length - 1) {
+          this.currentQuestion = index - 1;
+        }
+        else {
+          this.currentQuestion = index;
+        }
+
+        this.questionList.splice(index, 1);
+      }
+    });
   }
 
   answer(currentQno: number, option: any) {
     // console.log('Current Question:', currentQno, 'Selected Option:', option);
     this.questionList[currentQno]["selectedOption"] = option;
 
-    if (currentQno === this.questionList.length - 1) {
-      this.isQuizCompleted = true;
-      this.stopCounter();
-      console.log('quiz completed');
-    }
+    // if (currentQno === this.questionList.length - 1) {
+    //   this.isQuizCompleted = true;
+    //   this.stopCounter();
+    //   console.log('quiz completed');
+    // }
+
     if (option.correct) {
-      this.points += 100/this.questionList.length;
+      this.points += this.maxGrade / this.questionsLength;
       this.correctAnswer++;
       setTimeout(() => {
-        this.currentQuestion++;
+        this.answers.push(this.questionList[currentQno]);
+        if (this.answers.length == this.noOfQuestions) {
+          this.isQuizCompleted = true;
+          console.log('quiz completed');
+        }
+        this.removeElementFromQuestions(this.questionList[currentQno]);
+        // this.currentQuestion++;
         this.setCurrentSubjectName();
-        this.resetCounter();
+        // this.resetCounter();
         this.getProgressPercent();
+
       }, 1000);
     } else {
       setTimeout(() => {
+
+        this.answers.push(this.questionList[currentQno]);
+        if (this.answers.length == this.noOfQuestions) {
+          this.isQuizCompleted = true;
+          console.log('quiz completed');
+        }
+        this.removeElementFromQuestions(this.questionList[currentQno]);
+
         if (this.currentQuestion < this.questionList.length - 1) {
-          this.currentQuestion++;
+          // this.currentQuestion++;
           this.setCurrentSubjectName();
         }
 
 
-        this.resetCounter();
+        // this.resetCounter();
         this.incorrectAnswer++;
         this.getProgressPercent();
+        if (this.answers.length == 20) {
+          this.isQuizCompleted = true;
+          console.log('quiz completed');
+        }
       }, 1000);
-      // this.points -= 10;
+
     }
+
+
+
+
   }
+
+
 
   checkAnswer(option: any) {
     if (option.correct) {
@@ -179,17 +242,20 @@ export class QuestionComponent implements OnInit {
   }
 
   getCorrectAnswerText(question: any): string {
-    const correctOption = question.options.find((option: any) => option.correct);
-    return correctOption ? correctOption.text : '';
+    // const correctOption = question.options.find((option: any) => option.correct);
+    // return correctOption ? correctOption.text : '';
+    return question.correctAnswer;
   }
 
+  // Total timer
   startCounter() {
     this.interval$ = interval(1000).subscribe(() => {
       this.counter--;
       if (this.counter === 0) {
-        this.currentQuestion++;
-        this.counter = this.questionTime;
+        // this.currentQuestion++;
+        // this.counter = this.questionTime;
         // this.points -= 10;
+        this.isQuizCompleted = true;
       }
     });
     setTimeout(() => {
@@ -204,7 +270,7 @@ export class QuestionComponent implements OnInit {
 
   resetCounter() {
     this.stopCounter();
-    this.counter = 10;
+    // this.counter = this.questionTime;
     this.startCounter();
   }
 
@@ -224,14 +290,14 @@ export class QuestionComponent implements OnInit {
 
     this.resetCounter();
     this.points = 0;
-    this.counter = 10;
+    this.counter = this.totalTime;
     this.currentQuestion = 0;
     this.setCurrentSubjectName();
     this.progress = '0';
   }
 
   getProgressPercent() {
-    this.progress = ((this.currentQuestion / this.questionList.length) * 100)
+    this.progress = ((this.answers.length / this.questionsLength) * 100)
       .toFixed(0)
       .toString();
 

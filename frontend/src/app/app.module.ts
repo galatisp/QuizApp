@@ -1,5 +1,8 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +13,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChangeBgDirective } from './change-bg.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestComponent } from './test/test.component';
+import { UploadQuestionsComponent } from './admin/upload-questions/upload-questions.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -19,8 +25,10 @@ import { TestComponent } from './test/test.component';
     HeaderComponent,
     ChangeBgDirective,
     TestComponent,
+    UploadQuestionsComponent
+    
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

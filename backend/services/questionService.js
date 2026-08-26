@@ -25,6 +25,41 @@ const subject_includes = [
     }
 ];
 
+
+
+QuestionService.create = async (row, res, categoryId, subjectId) => {
+
+
+    const newQuestion = {
+        "categoryId": categoryId,
+        "subjectId": subjectId,
+        "number": row[0],
+        "title": row[1],
+        "answer1": row[2],
+        "answer2": row[3],
+        "answer3": row[4],
+        "answer4": row[5],
+        "correctAnswer": row[6]
+    };
+
+
+    const question = await Question.findOne({ where: { number: row[0] } });
+    if (question === null) {
+
+        const question = Question.create(newQuestion);
+    } else {
+        console.log("Question updated in Database");
+        await question.update(newQuestion);
+        await question.save();
+    }
+
+    // save account
+    // await question.save();
+
+
+};
+
+
 QuestionService.getAll = async () => {
     // return await Question.findAll({ include: ["subject"] });
 

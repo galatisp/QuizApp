@@ -15,7 +15,22 @@ services:
       - db_data:/var/lib/mysql    # Named volume for storing DB data
     networks:
       - app-network              # Connection to custom network
-
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
   phpmyadmin:
     image: phpmyadmin:latest    # phpMyAdmin image
     container_name: myadmin     # phpMyAdmin container name
@@ -36,7 +51,8 @@ services:
     networks:
       - app-network
     depends_on:
-      - mysql  
+      mysql:
+        condition: service_healthy  
 
   frontend:
     build: frontend
@@ -50,6 +66,7 @@ services:
 # Define named volume and network
 volumes:
   db_data:                      # Volume for MySQL data (Docker stores its data)
+  excel:
 networks:
   app-network:                  # Custom network for our services
     driver: bridge

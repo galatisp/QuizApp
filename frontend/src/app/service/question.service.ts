@@ -14,7 +14,7 @@ export class QuestionService {
   private limit: number;
 
   constructor(private http: HttpClient) {
-    this.limit = environment.limit || 20; // Default to 20 if not set
+    this.limit = environment.questions || 20; // Default to 20 if not set
   }
 
   

@@ -2,17 +2,25 @@ module.exports = (sequelize, models, DataTypes) => {
     const Question = sequelize.define(
         'questions',
         {
-            number: {
-                type: DataTypes.STRING,
-                primaryKey: true
+            categoryId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                   model: models.Category,
+                   key: 'id'
+                }
             },
-            subjectId: {
+             subjectId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
                    model: models.Subject,
                    key: 'id'
                 }
+            },
+            number: {
+                type: DataTypes.STRING,
+                primaryKey: true
             },
             title: {
                 type: DataTypes.STRING,

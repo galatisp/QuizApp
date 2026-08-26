@@ -6,7 +6,9 @@
 
 export const environment = {
   production: false, 
-  limit: 20,
+  questions: 5,
+  totalTime: 100,
+  maxGrade: 20
 };
 
 /*

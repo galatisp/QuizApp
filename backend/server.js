@@ -15,6 +15,7 @@ const dotenv = require('dotenv');
 
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
 const routes = require('./routes');
 const database = require('./database');
@@ -23,11 +24,12 @@ const database = require('./database');
 function initApp() {
     //app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
     // app.use(cors({ credentials: true, origin: '*' }));
-    app.use(cors({credentials: true, origin: 'http://localhost'}));
-   
- 
+    // app.use(cors({ credentials: true, origin: 'http://localhost' }));
+    app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    // app.use(express.raw({ type: '*/*', limit: '10mb' }));
     routes(app);
 
     //app.use(errorHandler);
@@ -40,8 +42,8 @@ function listen() {
 }
 
 (async () => {
-	
-	await database.authenticate();
+
+    await database.authenticate();
     require('./models');
 
     initApp();

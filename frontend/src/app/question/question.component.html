@@ -23,10 +23,10 @@
               <h5>{{points}} Πόντοι</h5>
             </div>
             <div class="question-remaining">
-              <span>Ερώτηση {{currentQuestion + 1}} από {{questionList.length}}</span>
+              <span>Μένουν {{questionList.length}} Αναπάντητες Ερώτησεις</span>
             </div>
             <div class="timer">
-              <h5>{{counter}} δευτερόλεπτα ⌛</h5>
+              <h5>Απομένουν {{counter}} δευτερόλεπτα ⌛</h5>
             </div>
           </div>
           <div class="w-full bg-gray-200 rounded-full dark:bg-gray-150">
@@ -67,7 +67,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M15 19l-7-7 7-7"></path>
               </svg>
             </button>
-            <button
+            <!-- <button
               class=" inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
               (click)="resetQuiz()">
               <svg class="w-10 h-10 " fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -76,7 +76,7 @@
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
                 </path>
               </svg>
-            </button>
+            </button> -->
             <button
               class=" inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
               (click)="nextQuestion()" [disabled]="currentQuestion === questionList.length -1">
@@ -91,9 +91,15 @@
         <ng-container *ngIf="isQuizCompleted">
           <div class="row flex justify-center w-100">
             <div class="text-center w-100">
-              <h3 class="text-xl font-bold">Έχετε ολοκληρώσει τον διαγωνισμό<br> Παρακάτω εμφανίζεται το αποτέλεσμά σας:
+              <h3 class="text-xl font-bold">Έχετε ολοκληρώσει τον Quiz<br> Παρακάτω εμφανίζεται η επίδοσή σας:
               </h3>
-              <p>Σύνολο Ερωτήσεων : {{questionList.length}} </p>
+              <p>Σύνολο Ερωτήσεων : {{questionsLength}} </p>
+              <p>Απαντήθηκαν {{answers.length}} Ερωτήσεις</p>
+
+
+              <p>Σωστές Απαντήσεις : {{correctAnswer}} </p>
+              <p>Λανθασμένες Απαντήσεις : {{incorrectAnswer}} </p>
+              <p class="text-xl font-bold">Η Βαθμολογία σας είναι {{points}} στα {{maxGrade}} </p>
               <table class="w-100 border-2 border-gray-300 rounded-lg mt-3">
                 <thead>
                   <tr>
@@ -105,26 +111,49 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let question of questionList;   let ans = index">
-                    <td class="text-left border-2 p-3">{{question.questionText}}</td>
-                    <td class="text-left border-2 p-3">{{question.subjectName}}</td>
+                  <tr *ngFor="let answer of answers;   let ans = index">
+                    <td class="text-left border-2 p-3">{{answer.questionText}}</td>
+                    <td class="text-left border-2 p-3">{{answer.subjectName}}</td>
                     <td class="text-left border-2 p-3">
-                      {{question.selectedOption?.text}}
+                      {{answer.selectedOption?.text}}
                     </td>
-                    <td class="text-left border-2 p-3" [ngClass]="checkAnswer(question.selectedOption)">
-                      {{question.selectedOption?.correct ? 'Σωστή' : 'Λανθασμένη'}}
+                    <!-- <td class="text-left border-2 p-3" [ngClass]="checkAnswer(answer.selectedOption)"> -->
+                    <td class="text-left border-2 p-3">
+                      {{answer.selectedOption?.correct ? 'Σωστή' : 'Λανθασμένη'}}
                     </td>
                     <td class="text-left border-2 p-3"
-                      *ngIf="getCorrectAnswerText(question) !== question.selectedOption.text">
-                      {{getCorrectAnswerText(questionList[ans])}}
+                      *ngIf="getCorrectAnswerText(answer) !== answer.selectedOption.text">
+                      {{getCorrectAnswerText(answer)}}
                     </td>
                   </tr>
+
                 </tbody>
               </table>
+              <div *ngIf="questionList.length > 0">
 
-              <p>Σωστές Απαντήσεις : {{correctAnswer}} </p>
-              <p>Λανθασμένες/Αναπάντητες Απαντήσεις : {{incorrectAnswer}} </p>
-              <p class="text-xl font-bold">Βαθμολογία σας : {{points}} Πόντοι </p>
+
+                <hr>
+                <p>Αναπάντητες Ερωτήσεις {{questionList.length}} </p>
+                <table class="w-100 border-2 border-gray-300 rounded-lg mt-3">
+                  <thead>
+                    <tr>
+                      <th class="text-left border-2 p-3">Ερώτηση</th>
+                      <th class="text-left border-2 p-3">Αντικείμενο</th>
+
+                      <th class="text-left border-2 p-3">Σωστή Απάντηση</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let question of questionList   let ans = index">
+                      <td class="text-left border-2 p-3">{{question.questionText}}</td>
+                      <td class="text-left border-2 p-3">{{question.subjectName}}</td>
+                      <td class="text-left border-2 p-3">
+                        {{getCorrectAnswerText(question)}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <button
                 class="transition mt-5 ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 duration-300 shadow-lg shadow-blue-500/50 py-2 px-3 rounded-lg font-bold text-white hover:bg-blue-600 "
                 routerLink="/welcome">Ξεκίνα νέο quiz</button>

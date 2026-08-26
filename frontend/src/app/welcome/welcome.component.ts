@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SubjectService } from '../service/subject.service';
 import { CategoriesService } from '../service/categories.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   templateUrl: './welcome.component.html',
@@ -12,7 +13,17 @@ export class WelcomeComponent implements OnInit {
   @ViewChild('categoryId') categoryIdKey!: ElementRef;
   public subjectList: any = [];
   public categoryList: any = [];
-  constructor(private subjectService: SubjectService, private categoriesService: CategoriesService) { 
+  maxGrade: number = 0;
+  noOfQuestions: number = 0;
+  totalTime: number = 0;
+  constructor(private subjectService: SubjectService, private categoriesService: CategoriesService) {
+
+    this.noOfQuestions = environment.questions || 20; // Default to 20 if not set
+
+    this.totalTime = environment.totalTime || 50;
+
+    this.maxGrade = environment.maxGrade || 100;
+
     this.getAllSubjects();
     this.getAllCategories();
   }
@@ -30,15 +41,15 @@ export class WelcomeComponent implements OnInit {
   getAllSubjects() {
     this.subjectService.getAllSubjects().subscribe((res) => {
       this.subjectList = res.subjects;
-      
+
     });
   }
 
   getSubjectsByCategory(categoryId: any) {
-    
-   this.subjectService.getSubjectsByCategory(categoryId).subscribe((res) => {
+
+    this.subjectService.getSubjectsByCategory(categoryId).subscribe((res) => {
       this.subjectList = res.subjects;
-    }); 
+    });
   }
 
   getAllCategories() {

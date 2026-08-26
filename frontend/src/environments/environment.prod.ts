@@ -1,4 +1,6 @@
 export const environment = {
   production: true, 
-  limit: 20,
+  questions: 10,
+  totalTime: 60,
+  maxGrade: 20
 };
