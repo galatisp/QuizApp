@@ -1,0 +1,24 @@
+
+.container {
+  width: 70%;
+  border-radius: 5px;  
+  padding: 5px;
+  margin: auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.correct {
+  background-color: rgb(89, 168, 114);
+  color: white;
+}
+
+.incorrect {
+  background-color: rgb(198, 172, 68);
+  color: black;
+}
+
+.unset {
+  all: unset;
+  background-color: lightpink;
+}

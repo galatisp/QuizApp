@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
 
-const Questions = () => {
-    const [questions, setQuestions] = useState([]);
+const Quiz = () => {
+    const [questions, setQuestions] = useState<any[]>([]);
 
 
     const [rowsOffset, setRowsOffset] = useState(0);
@@ -33,10 +33,11 @@ const Questions = () => {
 
     useEffect(() => {
 
-        fetch('http://localhost:5000/public/questions/random')
+        fetch('http://localhost:5000/public/questions')
             .then((response) => response.json())
             .then((data) => {
-                setQuestions(data);
+                setQuestions(data["questions"]);
+                // console.log(data["questions"]);
 
             })
             .catch((err) => {
@@ -46,8 +47,8 @@ const Questions = () => {
 
     }, []);
     
-    // const slicedBooks = questions.slice(rowsOffset, rowsOffset + limit);
-    const tableRows = questions.map(question =>
+    const slicedQuestions = questions.slice(rowsOffset, rowsOffset + limit);
+    const tableRows = slicedQuestions.map(question =>
 
         <tr key={question.number}>
             <td>{question.number}</td>
@@ -58,6 +59,8 @@ const Questions = () => {
             <td>{question.options[3].text}</td>
           
         </tr>
+
+        
 
 
 
@@ -87,9 +90,9 @@ const Questions = () => {
                 </tbody>
 
             </table>
-            <div className='wide'><button className="btn btn-success left" onClick={decreaseOffset}>Προηγούμενα</button>
-                Εμφανίζονται {rowsOffset + 1} έως {rowsOffset + limit} σε σύνολο {books.length} Kαταχωρήσεων
-                <button className="btn btn-success right" onClick={increaseOffset}>Επόμενα</button>
+            <div className='wide'><button className="btn btn-success left" onClick={decreaseOffset}>Προηγούμενες</button>
+                Εμφανίζονται {rowsOffset + 1} έως {rowsOffset + limit} σε σύνολο {questions.length} Ερωτήσεων
+                <button className="btn btn-success right" onClick={increaseOffset}>Επόμενες</button>
             </div>
 
         </div>
@@ -97,4 +100,4 @@ const Questions = () => {
 };
 
 
-export default Questions;
+export default Quiz;

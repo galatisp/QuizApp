@@ -1,0 +1,13 @@
+.narrow {
+    width: 5%;
+}
+
+.small {
+    width: 10%;
+}.wide {
+    width: 100%;
+}
+
+.spacer {
+    margin: 20px;
+}
