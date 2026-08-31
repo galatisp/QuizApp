@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     models.DataTypes = DataTypes;
 
     for (const modelName in models) models[modelName].associate?.();
+    sequelize.sync();  
 
     return models;
 };
