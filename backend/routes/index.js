@@ -11,4 +11,6 @@ module.exports = function (app) {
     app.use('/public/subjects', require('./public/subject'));
     app.use('/public/categories', require('./public/category'));
     app.use('/admin/upload-new-questions', require('./admin/upload-new-questions'));
+    require('./auth.routes')(app);
+    require('./user.routes')(app);
 };

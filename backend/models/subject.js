@@ -3,8 +3,8 @@ module.exports = (sequelize, models, DataTypes) => {
         'subject',
         {
             id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: DataTypes.INTEGER,
+                defaultValue: DataTypes.INTEGER,
                 primaryKey: true
             },
             name: {
@@ -12,7 +12,7 @@ module.exports = (sequelize, models, DataTypes) => {
                 allowNull: false
             },
             categoryId: {
-                type: DataTypes.UUID,
+                type: DataTypes.INTEGER,
                 allowNull: false
             }
         },

@@ -1,6 +1,6 @@
 //Routes 
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -10,8 +10,18 @@ import {
     Outlet,
 } from "react-router-dom";
 
+import Login from "./components/Login";
+
+import Logout from "./components/Logout";
+import Profile from "./components/Profile";
 import Quiz from "./quiz/Quiz";
 import ShowQuestions from "./quiz/ShowQuestions";
+import UploadQuestions from "./admin/UploadQuestions";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import './App.css';
+import AuthService from "./services/auth.service";
+
 
 // Home Page Component
 const Home = () => {
@@ -21,37 +31,33 @@ const Home = () => {
         <div>
             <h2>Αρχική Σελίδα</h2>
             <button onClick={() =>
-                 navigate("/quiz")}>Έναρξη Quiz</button>
+                navigate("/quiz")}>Έναρξη Quiz</button>
         </div>
     );
 };
 
-// About Page Component 
-const About = () => (
-    <div>
-        <h2>About Page</h2>
-        <nav>
-            <ul>
-                <li>
-                    <Link to="team">Our Team</Link>
-                </li>
-                <li>
-                    <Link to="company">Our Company</Link>
-                </li>
-            </ul>
-        </nav>
-        <Outlet />
-    </div>
-);
+const logOut = () => {
+    AuthService.logout();
+};
 
-// Components for other pages
 
-const Team = () => <h2>Team Page</h2>;
-const Company = () => <h2>Company Page</h2>;
 
 function App() {
+    const [currentUser, setCurrentUser] = useState(undefined);
+    const [showAdminBoard, setShowAdminBoard] = useState(false);
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+
+        if (user) {
+            setCurrentUser(user);
+            setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+        }
+    }, []);
+
     return (
         <Router>
+
             <nav>
                 <ul>
                     <li>
@@ -60,25 +66,49 @@ function App() {
                     <li>
                         <Link to="/quiz">Quiz</Link>
                     </li>
-                     <li>
-                        <Link to="/questions">Questions</Link>
-                    </li>
-                    {/* <li>
-                        <Link to="/about">About</Link>
-                    </li> */}
-                    
+                    {/* Show Admin Page only to Admins */}
+                    {showAdminBoard && (
+                        <li>
+                            <Link to={"/upload-questions"} >
+                                Φόρτωση Ερωτήσεων
+                            </Link>
+                        </li>
+                    )}
+                    {/* Show Logout/Login  */}
+                    {currentUser ? (
+
+
+                        <li className="nav-item">
+                            <a href="/logout" onClick={logOut}>
+                                LogOut
+                            </a>
+                        </li>
+
+                    ) : (
+
+                        <li className="nav-item">
+                            <Link to={"/login"}>
+                                Login
+                            </Link>
+                        </li>
+
+
+
+                    )}
+
+
                 </ul>
             </nav>
-            {/*Implementing Routes for respective Path */}
+
+
             <Routes>
                 <Route path="/" element={<Home />} />
-                 <Route path="/quiz" element={<Quiz />} />
-                 <Route path="/questions" element={<ShowQuestions />} />
-                {/* <Route path="/about" element={<About />}>
-                    <Route path="team" element={<Team />} />
-                    <Route path="company" element={<Company />} />
-                </Route> */}
-               
+                <Route path="/login" element={<Login />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/questions" element={<ShowQuestions />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/upload-questions" element={<UploadQuestions />} />
             </Routes>
         </Router>
     );

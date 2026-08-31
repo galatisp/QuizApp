@@ -1,0 +1,46 @@
+/* Main form container: stacks sections vertically */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Form rows: aligns items horizontally, wraps on small screens */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Individual input groups: stacks label above input */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Distributes equal width among siblings */
+  min-width: 400px; /* Prevents excessive shrinking */
+}
+
+/* Aligns label and input horizontally if side-by-side layout is preferred */
+.input-group.horizontal {
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 1rem;
+}
+
+.input-group label {
+  flex: 0 0 200px; /* Fixed width for alignment */
+}
+
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+  flex: 1; /* Takes remaining space */
+}
+
+/* Action buttons: aligns to the right */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

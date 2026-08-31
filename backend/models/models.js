@@ -19,6 +19,21 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "categoryId"
     });
 
+    models.User = require("../models/user.model.js")(sequelize, models, DataTypes);
+    models.Role = require("../models/role.model.js")(sequelize, models, DataTypes);
+
+    models.Role.belongsToMany(models.User, {
+        through: "user_roles"
+    });
+    models.User.belongsToMany(models.Role, {
+        through: "user_roles"
+    });
+
+    models.ROLES = ["user", "admin", "moderator"];
+
+    models.sequelize = sequelize;
+    models.DataTypes = DataTypes;
+
     for (const modelName in models) models[modelName].associate?.();
 
     return models;
