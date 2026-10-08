@@ -8,15 +8,15 @@ export class SubjectService {
   constructor(private http: HttpClient) { }
 
   getSubject(id:any) {
-    return this.http.get<any>('http://localhost:5000/public/subjects/'+id);
+    return this.http.get<any>('/api/public/subjects/'+id);
   }
 
   getAllSubjects() {
-    return this.http.get<any>('http://localhost:5000/public/subjects');
+    return this.http.get<any>('/api/public/subjects');
   }
 
   getSubjectsByCategory(categoryId:any) {
-    return this.http.get<any>('http://localhost:5000/public/subjects/category/'+categoryId);
+    return this.http.get<any>('/api/public/subjects/category/'+categoryId);
   }
 
 }

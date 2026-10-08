@@ -1,11 +1,11 @@
-<div class="container-fluid mt-10 flex align-content-center justify-center ">
-  <div class="bg-white p-8 border rounded-xl border-slate-300 sm:w-full mx-5
-  lg:w-10/12 xl:w-10/12 ">
+<div class="container-fluid mt-10 flex align-content-center justify-center">
+  <div
+    class="bg-white p-8 border rounded-xl border-slate-300 sm:w-full mx-5 lg:w-10/12 xl:w-10/12"
+  >
     <div class="flex justify-between p-3 lg:w-12/12 xl:w-6/6 mx-auto">
-
-      <div class="quiz-header mt-2  w-100">
+      <div class="quiz-header mt-2 w-100">
         <h3 class="text-2xl font-bold">Ερωτήσεις Γνώσεων</h3>
-        <span *ngIf="name">Καλωσόρισες {{name}}</span>
+        <span *ngIf="name">Καλωσόρισες {{ name }}</span>
 
         <!-- <div class="subject-header mt-2" *ngIf="categoryId">
           <h4 class="text-xl font-bold">Κατηγορία: <span>{{currentCategory}}</span></h4>
@@ -20,51 +20,81 @@
         <ng-container *ngIf="!isQuizCompleted">
           <div class="flex justify-around py-3 text-lg font-bold">
             <div class="score">
-              <h5>{{points}} Πόντοι</h5>
+              <h5>{{ points }} Πόντοι</h5>
             </div>
             <div class="question-remaining">
-              <span>Μένουν {{questionList.length}} Αναπάντητες Ερώτησεις</span>
+              <span
+                >Μένουν {{ questionList.length }} Αναπάντητες Ερώτησεις</span
+              >
             </div>
             <div class="timer">
-              <h5>Απομένουν {{counter}} δευτερόλεπτα ⌛</h5>
+              <h5>Απομένουν {{ counter }} δευτερόλεπτα ⌛</h5>
             </div>
           </div>
           <div class="w-full bg-gray-200 rounded-full dark:bg-gray-150">
-            <div class="bg-blue-600 h-6 text-lg font-medium text-blue-100 text-center  p-0.5 leading-none rounded-full"
-              [ngStyle]="{'width': progress + '%' }"> {{progress}}%</div>
+            <div
+              class="bg-blue-600 h-6 text-lg font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+              [ngStyle]="{ width: progress + '%' }"
+            >
+              {{ progress }}%
+            </div>
           </div>
           <div class="subject-header mt-2">
-            <h4 class="text-xl font-bold">Μάθημα: <span>{{questionList[currentQuestion]?.subjectName}}</span></h4>
-
+            <h4 class="text-xl font-bold">
+              Μάθημα:
+              <span>{{ questionList[currentQuestion]?.subjectName }}</span>
+            </h4>
           </div>
 
           <div class="question mt-6">
-
-            <div class="bg-white px-3 py-4 border rounded-xl  border-slate-300 w-full ">
-              <h3 class="text-xl font-bold">{{questionList[currentQuestion]?.questionText}}</h3>
+            <div
+              class="bg-white px-3 py-4 border rounded-xl border-slate-300 w-full"
+            >
+              <h3 class="text-xl font-bold">
+                {{ questionList[currentQuestion]?.questionText }}
+              </h3>
             </div>
           </div>
           <div class="options mt-2">
             <ol class="list-decimal ml-5">
-              <li class="mt-2" (click)="answer(currentQuestion,option)"
-                *ngFor="let option of questionList[currentQuestion]?.options; let i = index">
-
-
-                <div appChangeBg [isCorrect]="option.correct" [id]="option.correct ? 'correct' : 'incorrect'"
-                  class="px-3 py-4 border rounded-xl border-slate-300 w-full  cursor-pointer duration-300 ease-in-out  hover:transition-all hover:duration-500 text-lg font-semibold">
-                  {{option.text}}
+              <li
+                class="mt-2"
+                (click)="answer(currentQuestion, option)"
+                *ngFor="
+                  let option of questionList[currentQuestion]?.options;
+                  let i = index
+                "
+              >
+                <div
+                  appChangeBg
+                  [isCorrect]="option.correct"
+                  [id]="option.correct ? 'correct' : 'incorrect'"
+                  class="px-3 py-4 border rounded-xl border-slate-300 w-full cursor-pointer duration-300 ease-in-out hover:transition-all hover:duration-500 text-lg font-semibold"
+                >
+                  {{ option.text }}
                 </div>
               </li>
-
             </ol>
           </div>
           <div class="flex justify-between mt-10">
             <button
-              class=" inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
-              (click)="prevQuestion()" [disabled]="currentQuestion === 0">
-              <svg class="w-10 h-10 " fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M15 19l-7-7 7-7"></path>
+              class="inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
+              (click)="prevQuestion()"
+              [disabled]="currentQuestion === 0"
+            >
+              <svg
+                class="w-10 h-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="5"
+                  d="M15 19l-7-7 7-7"
+                ></path>
               </svg>
             </button>
             <!-- <button
@@ -78,11 +108,23 @@
               </svg>
             </button> -->
             <button
-              class=" inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
-              (click)="nextQuestion()" [disabled]="currentQuestion === questionList.length -1">
-              <svg class="w-10 h-10 " fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M9 5l7 7-7 7"></path>
+              class="inline-flex items-center justify-center w-16 h-16 mr-2 text-indigo-100 transition-colors duration-150 bg-blue-700 rounded-full focus:shadow-outline hover:bg-blue-800"
+              (click)="nextQuestion()"
+              [disabled]="currentQuestion === questionList.length - 1"
+            >
+              <svg
+                class="w-10 h-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="5"
+                  d="M9 5l7 7-7 7"
+                ></path>
               </svg>
             </button>
           </div>
@@ -91,76 +133,140 @@
         <ng-container *ngIf="isQuizCompleted">
           <div class="row flex justify-center w-100">
             <div class="text-center w-100">
-              <h3 class="text-xl font-bold">Έχετε ολοκληρώσει τον Quiz<br> Παρακάτω εμφανίζεται η επίδοσή σας:
+              <h3 class="text-xl font-bold">
+                Έχετε ολοκληρώσει τον Quiz<br />
+                Παρακάτω εμφανίζεται η επίδοσή σας:
               </h3>
-              <p>Σύνολο Ερωτήσεων : {{questionsLength}} </p>
-              <p>Απαντήθηκαν {{answers.length}} Ερωτήσεις</p>
+              <p class="text-xl font-bold">
+                Η Βαθμολογία σας είναι {{ points }} στα {{ maxGrade }}
+              </p>
+
+              <ng-container *ngIf="points === maxGrade">
+                <p class="text-xl font-bold text-success">
+                  Συγχαρητήρια! Τα πήγες τέλεια
+                </p>
+              </ng-container>
+              <ng-container
+                *ngIf="points === maxGrade - 1 || points === maxGrade - 2"
+              >
+                <p class="text-xl font-bold text-success-emphasis">
+                  Συγχαρητήρια! Τα πήγες σχεδόν τέλεια
+                </p>
+              </ng-container>
+              <ng-container *ngIf="points >= 15 && points < 18">
+                <p class="text-xl font-bold text-info">Τα πήγες πολύ καλά</p>
+              </ng-container>
+              <ng-container *ngIf="points >= 10 && points < 15">
+                <p class="text-xl font-bold text-warning">
+                  Τα πήγες μέτρια. Την επόμενη φορά θα πάρεις καλύτερα.
+                </p>
+              </ng-container>
+              <ng-container *ngIf="points < 10">
+                <p class="text-xl font-bold text-danger-emphasis">
+                  Μην απογοητεύεσαι! Μπορείς να τα πας καλύτερα την επόμενη φορά
+                </p>
+              </ng-container>
+
+              <button
+                class="transition mt-5 ease-in-out delay-150 bg-blue-800 shadow-lg shadow-blue-500/50 py-2 px-3 rounded-lg font-bold text-white"
+                (click)="showDetailedGrades()"
+              >
+                Aναλυτικά Αποτελέσματα
+              </button>
+              <hr class="mt-5" /> 
 
 
-              <p>Σωστές Απαντήσεις : {{correctAnswer}} </p>
-              <p>Λανθασμένες Απαντήσεις : {{incorrectAnswer}} </p>
-              <p class="text-xl font-bold">Η Βαθμολογία σας είναι {{points}} στα {{maxGrade}} </p>
-              <table class="w-100 border-2 border-gray-300 rounded-lg mt-3">
-                <thead>
-                  <tr>
-                    <th class="text-left border-2 p-3">Ερώτηση</th>
-                    <th class="text-left border-2 p-3">Αντικείμενο</th>
-                    <th class="text-left border-2 p-3">Απάντηση</th>
-                    <th class="text-left border-2 p-3">Κατάσταση</th>
-                    <th class="text-left border-2 p-3">Σωστή Απάντηση</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let answer of answers;   let ans = index">
-                    <td class="text-left border-2 p-3">{{answer.questionText}}</td>
-                    <td class="text-left border-2 p-3">{{answer.subjectName}}</td>
-                    <td class="text-left border-2 p-3">
-                      {{answer.selectedOption?.text}}
-                    </td>
-                    <!-- <td class="text-left border-2 p-3" [ngClass]="checkAnswer(answer.selectedOption)"> -->
-                    <td class="text-left border-2 p-3">
-                      {{answer.selectedOption?.correct ? 'Σωστή' : 'Λανθασμένη'}}
-                    </td>
-                    <td class="text-left border-2 p-3"
-                      *ngIf="getCorrectAnswerText(answer) !== answer.selectedOption.text">
-                      {{getCorrectAnswerText(answer)}}
-                    </td>
-                  </tr>
+              <ng-container *ngIf="showDetails" class="mt-5">
+                <p>Σύνολο Ερωτήσεων : {{ questionsLength }}</p>
+                <p>Απαντήθηκαν {{ answers.length }} Ερωτήσεις</p>
+                <p>Σωστές Απαντήσεις : {{ correctAnswer }}</p>
+                <p>Λανθασμένες Απαντήσεις : {{ incorrectAnswer }}</p>
 
-                </tbody>
-              </table>
-              <div *ngIf="questionList.length > 0">
-
-
-                <hr>
-                <p>Αναπάντητες Ερωτήσεις {{questionList.length}} </p>
                 <table class="w-100 border-2 border-gray-300 rounded-lg mt-3">
                   <thead>
                     <tr>
                       <th class="text-left border-2 p-3">Ερώτηση</th>
                       <th class="text-left border-2 p-3">Αντικείμενο</th>
-
+                      <th class="text-left border-2 p-3">Απάντηση</th>
+                      <th class="text-left border-2 p-3">Κατάσταση</th>
                       <th class="text-left border-2 p-3">Σωστή Απάντηση</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let question of questionList   let ans = index">
-                      <td class="text-left border-2 p-3">{{question.questionText}}</td>
-                      <td class="text-left border-2 p-3">{{question.subjectName}}</td>
+                    <tr *ngFor="let answer of answers; let ans = index">
                       <td class="text-left border-2 p-3">
-                        {{getCorrectAnswerText(question)}}
+                        {{ answer.questionText }}
+                      </td>
+                      <td class="text-left border-2 p-3">
+                        {{ answer.subjectName }}
+                      </td>
+                      <td class="text-left border-2 p-3">
+                        {{ answer.selectedOption?.text }}
+                      </td>
+                      <!-- <td class="text-left border-2 p-3" [ngClass]="checkAnswer(answer.selectedOption)"> -->
+                      <td class="text-left border-2 p-3">
+                        {{
+                          answer.selectedOption?.correct
+                            ? "Σωστή"
+                            : "Λανθασμένη"
+                        }}
+                      </td>
+                      <td
+                        class="text-left border-2 p-3"
+                        *ngIf="
+                          getCorrectAnswerText(answer) !==
+                          answer.selectedOption.text
+                        "
+                      >
+                        {{ getCorrectAnswerText(answer) }}
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div>
-              <button
-                class="transition mt-5 ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 duration-300 shadow-lg shadow-blue-500/50 py-2 px-3 rounded-lg font-bold text-white hover:bg-blue-600 "
-                routerLink="/welcome">Ξεκίνα νέο quiz</button>
+                <div *ngIf="questionList.length > 0">
+                  <hr />
+                  <p>Αναπάντητες Ερωτήσεις {{ questionList.length }}</p>
+                  <table class="w-100 border-2 border-gray-300 rounded-lg mt-3">
+                    <thead>
+                      <tr>
+                        <th class="text-left border-2 p-3">Ερώτηση</th>
+                        <th class="text-left border-2 p-3">Αντικείμενο</th>
+
+                        <th class="text-left border-2 p-3">Σωστή Απάντηση</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let question of questionList; let ans = index"
+                      >
+                        <td class="text-left border-2 p-3">
+                          {{ question.questionText }}
+                        </td>
+                        <td class="text-left border-2 p-3">
+                          {{ question.subjectName }}
+                        </td>
+                        <td class="text-left border-2 p-3">
+                          {{ getCorrectAnswerText(question) }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <hr>
+              
+              </ng-container>
+                <button
+                  ng-container
+                  *ngIf="isQuizCompleted"
+                  class="transition mt-5 ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 duration-300 shadow-lg shadow-blue-500/50 py-2 px-3 rounded-lg font-bold text-white hover:bg-blue-600"
+                  routerLink="/welcome"
+                >
+                  Ξεκίνα νέο quiz
+                </button>
             </div>
           </div>
         </ng-container>
-
-
       </div>
     </div>
+  </div>
+</div>

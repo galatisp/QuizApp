@@ -21,31 +21,16 @@ const routes = require('./routes');
 const database = require('./database');
 //const errorHandler = require('./errors/base/errorHandler');
 
-const allowedOrigins = ['http://localhost', 'http://localhost:5173'];
+
 
 function initApp() {
-    //app.use(cors({ credentials: true, origin: 'http://localhost:4200' }));
-    // app.use(cors({ credentials: true, origin: '*' }));
-    // app.use(cors({ credentials: true, origin: 'http://localhost' }));
-    // app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
-   
-    app.use((req, res, next) => {
-        const origin = req.headers.origin;
-        if (allowedOrigins.includes(origin)) {
-            res.setHeader('Access-Control-Allow-Origin', origin);
-        }
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        next();
-    });
-
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    // app.use(express.raw({ type: '*/*', limit: '10mb' }));
+        
     routes(app);
 
-    //app.use(errorHandler);
+    
 }
 
 function listen() {

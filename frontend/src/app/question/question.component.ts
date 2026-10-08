@@ -35,6 +35,7 @@ export class QuestionComponent implements OnInit {
   interval$: any;
   progress: string = '0';
   isQuizCompleted: boolean = false;
+  showDetails: boolean = false;
 
   constructor(private questionService: QuestionService, private subjectService: SubjectService, private categoriesService: CategoriesService) {
     this.noOfQuestions = environment.questions || 20; // Default to 20 if not set
@@ -302,5 +303,9 @@ export class QuestionComponent implements OnInit {
       .toString();
 
     return this.progress;
+  }
+
+  showDetailedGrades() {
+    this.showDetails = !this.showDetails;
   }
 }

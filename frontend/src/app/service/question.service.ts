@@ -20,24 +20,24 @@ export class QuestionService {
   
 
   getQuestionJson() {
-    return this.http.get<any>('http://localhost:5000/public/questions');
+    return this.http.get<any>('/api/public/questions');
   }
 
   getRandomQuestions() {
-    return this.http.get<any>('http://localhost:5000/public/questions/random/' + this.limit);
+    return this.http.get<any>('/api/public/questions/random/' + this.limit);
   }
 
   getSubjectQuestions(id:any) {
-    return this.http.get<any>('http://localhost:5000/public/questions/subject/'+id);
+    return this.http.get<any>('/api/public/questions/subject/'+id);
   }
 
 
 
   getSubjectRandomQuestions(id:any) {
-    return this.http.get<any>('http://localhost:5000/public/questions/random/subject/'+id+'/'+this.limit);
+    return this.http.get<any>('/api/public/questions/random/subject/'+id+'/'+this.limit);
   }
 
    getCategoryRandomQuestions(id:any) {
-    return this.http.get<any>('http://localhost:5000/public/questions/random/category/'+id+'/'+this.limit);
+    return this.http.get<any>('/api/public/questions/random/category/'+id+'/'+this.limit);
   }
 }

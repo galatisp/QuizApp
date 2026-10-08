@@ -8,11 +8,11 @@ export class CategoriesService {
 
   constructor(private http: HttpClient) { }
   getCategory(id:any) {
-    return this.http.get<any>('http://localhost:5000/public/categories/'+id);
+    return this.http.get<any>('/api/public/categories/'+id);
   }
 
   getAllCategories() {
-    return this.http.get<any>('http://localhost:5000/public/categories');
+    return this.http.get<any>('/api/public/categories');
   }
 
 }
